@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package hydra;
+
+option go_package = "github.com/hydra-x/proto";
+
+// Service for submitting and managing jobs
+service HydraService {
+  rpc SubmitJob (SubmitJobRequest) returns (SubmitJobResponse);
+  rpc GetJobStatus (GetJobStatusRequest) returns (GetJobStatusResponse);
+  rpc StreamLogs (StreamLogsRequest) returns (stream LogEntry);
+}
+
+message SubmitJobRequest {
+  string job_id = 1;
+  string type = 2; // "script", "binary", "docker"
+  string command = 3;
+  repeated string args = 4;
+  int32 priority = 5;
+  map<string, string> env = 6;
+}
+
+message SubmitJobResponse {
+  bool success = 1;
+  string message = 2;
+  string job_id = 3;
+}
+
+message GetJobStatusRequest {
+  string job_id = 1;
+}
+
+message GetJobStatusResponse {
+  string job_id = 1;
+  string status = 2; // "PENDING", "RUNNING", "COMPLETED", "FAILED"
+  int32 exit_code = 3;
+}
+
+message StreamLogsRequest {
+  string job_id = 1;
+}
+
+message LogEntry {
+  string job_id = 1;
+  int64 timestamp = 2;
+  string content = 3;
+  string stream = 4; // "stdout", "stderr"
+}

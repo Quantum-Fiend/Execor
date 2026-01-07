@@ -1,0 +1,8 @@
+FROM gcc:latest
+
+WORKDIR /app
+COPY core/ /app/
+
+RUN mkdir build && cd build && cmake .. && make
+
+CMD ["./build/hydra_core"]

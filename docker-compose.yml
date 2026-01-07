@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  hydra-core:
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    ports:
+      - "5050:5050"
+    restart: always
+
+  hydra-control:
+    build:
+      context: .
+      dockerfile: Dockerfile.control
+    ports:
+      - "9090:9090"
+    environment:
+      - CORE_ADDR=hydra-core:5050
+    depends_on:
+      - hydra-core
+
+  hydra-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    ports:
+      - "3000:80"
+    depends_on:
+      - hydra-control
