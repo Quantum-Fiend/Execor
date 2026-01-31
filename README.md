@@ -151,5 +151,5 @@ Open your browser to `http://localhost:5173` to access the command center.
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by the Hydra-X Team</sub>
+  <sub>Built with ❤️ by Tushar</sub>
 </div>
